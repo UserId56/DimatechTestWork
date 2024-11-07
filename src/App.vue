@@ -1,30 +1,64 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import ProgressBar from './components/ProgressBar.vue'
+import { ref } from 'vue'
+
+const testValue = ref(12)
+const testValueDashBoard = ref(0)
+const statusTest = ref('in progress')
+const statusList = ['in progress', 'success', 'warning', 'error']
+let indexStatus = 0
+
+function editStatus() {
+  if (indexStatus != statusList.length - 1) {
+    indexStatus++
+    statusTest.value = statusList[indexStatus]
+  } else {
+    indexStatus = 0
+    statusTest.value = statusList[indexStatus]
+  }
+  console.log(statusTest.value)
+}
+
+function getValue(newValue) {
+  let tempValue = parseInt(newValue.target.value)
+  if (tempValue != 100) {
+    statusTest.value = 'in progress'
+  } else {
+    statusTest.value = 'success'
+  }
+  testValue.value = tempValue
+}
+
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <div class="content">
+    <div class="content__item">
+      <button @click="editStatus" class="m-b-12">Сменить статус</button>
+      <input type="range" name="test-bar" id="testbar" @input="getValue" :value="testValue" class="m-b-12">
+      <ProgressBar :value="testValue" :status="statusTest"></ProgressBar>
+    </div>
+    <div class="content__item">
+      <input type="range" name="test-bar" id="testbar" v-model="testValueDashBoard" class="m-b-12">
+      <ProgressBar :value="testValueDashBoard"></ProgressBar>
+    </div>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
-<style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+<style lang="scss">
+.content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-around;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+  }
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+.m-b-12 {
+  margin-bottom: 12px;
 }
 </style>

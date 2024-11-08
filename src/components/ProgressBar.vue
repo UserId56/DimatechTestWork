@@ -47,12 +47,10 @@ const colorStroke = computed(() => {
             break;
         case 'success':
             return '#12ce66'
-            break;
         case 'warning':
             return '#e7a23d'
         case 'error':
             return '#ff4949'
-            break;
         default:
             break;
     }

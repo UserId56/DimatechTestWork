@@ -5,6 +5,7 @@ import { ref } from 'vue'
 const testValue = ref(12)
 const testValueDashBoard = ref(0)
 const statusTest = ref('in progress')
+const statusDashBoard = ref('in progress')
 const statusList = ['in progress', 'success', 'warning', 'error']
 let indexStatus = 0
 
@@ -29,6 +30,16 @@ function getValue(newValue) {
   testValue.value = tempValue
 }
 
+function getValueDashboard(newValue) {
+  let tempValue = parseInt(newValue.target.value)
+  if (tempValue != 100) {
+    statusDashBoard.value = 'in progress'
+  } else {
+    statusDashBoard.value = 'success'
+  }
+  testValueDashBoard.value = tempValue
+}
+
 </script>
 
 <template>
@@ -39,8 +50,9 @@ function getValue(newValue) {
       <ProgressBar :value="testValue" :status="statusTest"></ProgressBar>
     </div>
     <div class="content__item">
-      <input type="range" name="test-bar" id="testbar" v-model="testValueDashBoard" class="m-b-12">
-      <ProgressBar :value="testValueDashBoard"></ProgressBar>
+      <input type="range" name="test-bar" id="testbar" @input="getValueDashboard" :value="testValueDashBoard"
+        class="m-b-12">
+      <ProgressBar :value="testValueDashBoard" :status="statusDashBoard"></ProgressBar>
     </div>
   </div>
 </template>

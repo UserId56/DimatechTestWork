@@ -1,6 +1,8 @@
 <template>
-    <div class="progress-bar" :style="`--progress: ${props.value};--color-stroke:${colorStroke};`">
-        <svg>
+    <div class="progress-bar" :style="`--progress: ${value};--color-stroke:${colorStroke};`">
+        <svg :class="{
+            'dashboard': props.dashboard,
+        }">
             <circle cx="70" cy="70" r="70">
             </circle>
             <circle cx="70" cy="70" r="70">
@@ -22,9 +24,9 @@ const props = defineProps({
         required: true,
         default: 0
     },
-    type: {
-        type: String,
-        default: 'default'
+    dashboard: {
+        type: Boolean,
+        default: false
     },
     status: {
         type: String,
@@ -56,6 +58,12 @@ const colorStroke = computed(() => {
     }
 })
 
+const value = computed(() => {
+    if (props.dashboard) {
+        console.log(330 - (330 * props.value + 1) / 80)
+        return props.value
+    } else return props.value
+})
 
 const precent = computed(() => {
     return (props.status === 'in progress') ? props.value + ' % ' : 0
@@ -78,6 +86,13 @@ body {
         transform: rotate(-90deg);
         z-index: 2;
     }
+
+    & svg.dashboard {
+        width: 150px;
+        height: 150px;
+        transform: rotate(-225deg);
+        z-index: 2;
+    }
 }
 
 svg circle {
@@ -93,6 +108,24 @@ svg circle {
 svg circle:last-child {
     stroke-dasharray: 440;
     stroke-dashoffset: calc(440 - (440 * var(--progress)) / 100);
+    transition: stroke-dashoffset 0.5s ease;
+    stroke: var(--color-stroke);
+}
+
+svg.dashboard circle {
+    width: 100%;
+    height: 100%;
+    fill: none;
+    stroke: #191919;
+    stroke-width: 10;
+    stroke-linecap: round;
+    transform: translate(5px, 5px);
+    stroke-dasharray: 440;
+    stroke-dashoffset: 110;
+}
+
+svg.dashboard circle:last-child {
+    stroke-dashoffset: calc((440 - (330 * var(--progress)) / 100));
     transition: stroke-dashoffset 0.5s ease;
     stroke: var(--color-stroke);
 }

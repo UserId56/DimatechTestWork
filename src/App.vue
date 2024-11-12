@@ -32,11 +32,6 @@ function getValue(newValue) {
 
 function getValueDashboard(newValue) {
   let tempValue = parseInt(newValue.target.value)
-  if (tempValue != 100) {
-    statusDashBoard.value = 'in progress'
-  } else {
-    statusDashBoard.value = 'success'
-  }
   testValueDashBoard.value = tempValue
 }
 
@@ -52,7 +47,7 @@ function getValueDashboard(newValue) {
     <div class="content__item">
       <input type="range" name="test-bar" id="testbar" @input="getValueDashboard" :value="testValueDashBoard"
         class="m-b-12">
-      <ProgressBar :value="testValueDashBoard" :status="statusDashBoard"></ProgressBar>
+      <ProgressBar :value="testValueDashBoard" :status="statusDashBoard" dashboard></ProgressBar>
     </div>
   </div>
 </template>

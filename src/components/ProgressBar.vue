@@ -39,7 +39,7 @@ const props = defineProps({
     },
     width: {
         type: Number,
-        default: 20
+        default: 10
     }
 })
 
@@ -90,6 +90,9 @@ body {
 
 .progress-bar {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     & svg {
         width: 150px;
@@ -111,7 +114,7 @@ svg circle {
     width: 100%;
     height: 100%;
     fill: none;
-    stroke: #191919;
+    stroke: #4b4a4a45;
     stroke-width: var(--width);
     stroke-linecap: round;
     transform: translate(5px, 5px)
@@ -128,7 +131,7 @@ svg.dashboard circle {
     width: 100%;
     height: 100%;
     fill: none;
-    stroke: #191919;
+    stroke: #4b4a4a45;
     stroke-width: var(--width);
     stroke-linecap: round;
     transform: translate(5px, 5px);

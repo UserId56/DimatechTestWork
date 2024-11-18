@@ -1,11 +1,12 @@
 <template>
-    <div class="progress-bar" :style="`--progress: ${value};--color-stroke:${colorStroke};`">
+    <div class="progress-bar"
+        :style="`--progress: ${value};--color-stroke:${colorStroke};--perimeter: ${perimeter};--perimeter-dashboard:${perimeter * 0.75};--width:${props.width}`">
         <svg :class="{
             'dashboard': props.dashboard,
-        }">
-            <circle cx="70" cy="70" r="70">
+        }" :style="`width:${props.radius * 2 + 10}px;height:${props.radius * 2 + 10}px`">
+            <circle :cx="props.radius" :cy="props.radius" :r="props.radius">
             </circle>
-            <circle cx="70" cy="70" r="70">
+            <circle :cx="props.radius" :cy="props.radius" :r="props.radius">
             </circle>
         </svg>
         <div class="precent" v-if="props.status === 'in progress'">{{ precent }}</div>
@@ -16,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 
 const props = defineProps({
     value: {
@@ -31,6 +32,14 @@ const props = defineProps({
     status: {
         type: String,
         default: 'in progress'
+    },
+    radius: {
+        type: Number,
+        default: 70
+    },
+    width: {
+        type: Number,
+        default: 20
     }
 })
 
@@ -60,10 +69,12 @@ const colorStroke = computed(() => {
 
 const value = computed(() => {
     if (props.dashboard) {
-        console.log(330 - (330 * props.value + 1) / 80)
+        // console.log(330 - (330 * props.value + 1) / 80)
         return props.value
     } else return props.value
 })
+
+const perimeter = computed(() => Math.round(2 * Math.PI.toFixed(2) * props.radius));
 
 const precent = computed(() => {
     return (props.status === 'in progress') ? props.value + ' % ' : 0
@@ -85,6 +96,7 @@ body {
         height: 150px;
         transform: rotate(-90deg);
         z-index: 2;
+        overflow: visible
     }
 
     & svg.dashboard {
@@ -100,14 +112,14 @@ svg circle {
     height: 100%;
     fill: none;
     stroke: #191919;
-    stroke-width: 10;
+    stroke-width: var(--width);
     stroke-linecap: round;
     transform: translate(5px, 5px)
 }
 
 svg circle:last-child {
-    stroke-dasharray: 440;
-    stroke-dashoffset: calc(440 - (440 * var(--progress)) / 100);
+    stroke-dasharray: var(--perimeter);
+    stroke-dashoffset: calc(var(--perimeter) - (var(--perimeter) * var(--progress)) / 100);
     transition: stroke-dashoffset 0.5s ease;
     stroke: var(--color-stroke);
 }
@@ -117,15 +129,15 @@ svg.dashboard circle {
     height: 100%;
     fill: none;
     stroke: #191919;
-    stroke-width: 10;
+    stroke-width: var(--width);
     stroke-linecap: round;
     transform: translate(5px, 5px);
-    stroke-dasharray: 440;
-    stroke-dashoffset: 110;
+    stroke-dasharray: var(--perimeter);
+    stroke-dashoffset: calc(var(--perimeter) * 0.25);
 }
 
 svg.dashboard circle:last-child {
-    stroke-dashoffset: calc((440 - (330 * var(--progress)) / 100));
+    stroke-dashoffset: calc((var(--perimeter) - (var(--perimeter-dashboard) * var(--progress)) / 100));
     transition: stroke-dashoffset 0.5s ease;
     stroke: var(--color-stroke);
 }

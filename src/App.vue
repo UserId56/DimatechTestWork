@@ -47,7 +47,7 @@ function getValueDashboard(newValue) {
     <div class="content__item">
       <input type="range" name="test-bar" id="testbar" @input="getValueDashboard" :value="testValueDashBoard"
         class="m-b-12">
-      <ProgressBar :value="testValueDashBoard" :status="statusDashBoard" dashboard></ProgressBar>
+      <ProgressBar :value="testValueDashBoard" :status="statusDashBoard" dashboard :radius="120"></ProgressBar>
     </div>
   </div>
 </template>
@@ -55,7 +55,7 @@ function getValueDashboard(newValue) {
 <style lang="scss">
 .content {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   width: 100%;
   justify-content: space-around;
 
